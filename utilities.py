@@ -17,17 +17,8 @@ def tickerGetFirst(ticker):
     global price  
     global intradayChange
     companyName = yahoosoup.find('h1', {'class': 'D(ib) Fz(18px)'}).text ###parses the url html under the h1 tag for the company name
-    price = yahoosoup.find('span', {'class': 'Trsdu(0.3s) Fw(b) Fz(36px) Mb(-4px) D(ib)'}).text ### parses the url html under the span class for the current company price
-    intradayChange = yahoosoup.find('span', {'class': 'Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($positiveColor)'})### parses for the current intraday change value
-        ### an if else state was required for intraday change, as the html string of the intradayChange changes depending on whether the stock is up or down for the day. This accounts for that.
-    if intradayChange == (None):
-        intradayChange = yahoosoup.find('span', {'class': 'Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($negativeColor)'})
-    if intradayChange == (None):
-        intradayChange = yahoosoup.find('span', {'class': 'Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px)'}).text
-    elif intradayChange == yahoosoup.find('span', {'class': 'Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($negativeColor)'}):
-        intradayChange = yahoosoup.find('span', {'class': 'Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($negativeColor)'}).text
-    else:
-        intradayChange = yahoosoup.find('span', {'class': 'Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($positiveColor)'}).text
+    price = yahoosoup.find('fin-streamer', {'class': 'Fw(b) Fz(36px) Mb(-4px) D(ib)' }).text
+    intradayChange = yahoosoup.find('div', {'class': "D(ib) Mend(20px)"}).find_all('fin-streamer')[2].find_all('span')[0].text
 
 
 def peerPE(ticker): ###This function compares the company's PE ratio to the sector's P/E ratio that it operates in.
@@ -84,7 +75,6 @@ def peerPEcheck(click): ###the "click" variable is taken in from main.py as a bo
             peerPEisclicked = 0
         else:
             peerPEisclicked = 1
-
     else:
         peerPEisclicked = 0
     

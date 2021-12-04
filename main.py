@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
 
-"""
-Authors:
-Michael Guinta
-Dylan Humble
-
-"""
 from tkinter import *
 import tkinter
 from utilities import *
